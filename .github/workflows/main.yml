@@ -6,7 +6,9 @@
         branches:
           - main
           - feature/*
+          - master
           
+
     env:
       MONGO_URI: 'mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@mycluster.ybh2ayz.mongodb.net/?retryWrites=true&w=majority&appName=myCluster'
       MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
