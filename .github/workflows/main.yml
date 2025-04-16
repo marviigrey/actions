@@ -1,0 +1,27 @@
+---
+    name: node app Workflow
+    on:
+      workflow_dispatch: null
+      push:
+        branches:
+          - main
+          - feature/*
+    env:
+      MONGO_URI: 'mongodb+srv://${{vars.MONGO_USERNAME}}:${{secrets.MONGO_PASSWORD}}@mycluster.ybh2ayz.mongodb.net/?retryWrites=true&w=majority&appName=myCluster'
+      MONGO_USERNAME: ${{vars.MONGO_USERNAME}}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+    jobs:
+      unit-testing:
+        name: Unit Testing
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v4
+          - name: Setup NodeJS Version
+            uses: actions/setup-node@v4
+            with:
+              node-version: 20
+          - name: Install Dependencies
+            run: npm install
+          - name: Unit Testing
+            run: npm test
