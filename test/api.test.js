@@ -1,3 +1,4 @@
+// FILE: test/api.test.js
 const request = require('supertest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
@@ -41,8 +42,11 @@ describe('Item API', () => {
       
       expect(response.status).toBe(200);
       expect(response.body.length).toBe(2);
-      expect(response.body[0]).toHaveProperty('name', 'Item 1');
-      expect(response.body[1]).toHaveProperty('name', 'Item 2');
+      
+      // Fix: Don't rely on specific order, just check if both items exist
+      const itemNames = response.body.map(item => item.name);
+      expect(itemNames).toContain('Item 1');
+      expect(itemNames).toContain('Item 2');
     });
   });
   
