@@ -29,3 +29,10 @@
             run: npm install
           - name: Unit Testing
             run: npm test
+
+          - name: Archive test result
+            uses: actions/upload-artifact@v3
+            with:
+              name: jest test results
+              path: test-results.xml
+              
