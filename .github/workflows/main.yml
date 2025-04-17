@@ -25,6 +25,11 @@
             uses: actions/setup-node@v4
             with:
               node-version: 20
+          - name: cache npm dependencies
+            uses: actions/cache@v4
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-node-modules-${{hashFiles('package-lock.json')}}
           - name: Install Dependencies
             run: npm install
           - name: Unit Testing
@@ -49,6 +54,11 @@
             uses: actions/setup-node@v4
             with: 
               node-version: 20
+          - name: 
+            uses: actions/cache@v4
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-node-modules-${{hashFiles('package-lock.json')}}
 
           - name: install dependencies
             run: npm install
