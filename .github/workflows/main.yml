@@ -33,7 +33,7 @@
 
           - name: Archive test result
             uses: actions/upload-artifact@v4
-            if: failure() && (steps.nodejs-unit-testing-step.outcome == 'failure' || steps.nodejs-unit-testing-step.outcome == 'success')
+            if: always()
             with:
               name: jest test results
               path: test-results.xml
