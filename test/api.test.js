@@ -86,7 +86,7 @@ describe('Item API', () => {
         .send(newItem);
       
       expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('name', 'Newer-0 Item');
+      expect(response.body).toHaveProperty('name', 'New Item');
       expect(response.body).toHaveProperty('description', 'New Description');
       expect(response.body).toHaveProperty('_id');
       
