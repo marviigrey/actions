@@ -102,7 +102,7 @@
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
 
                echo test URL
-               wget -q -O /dev/null http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
+               curl http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
 
 
 
