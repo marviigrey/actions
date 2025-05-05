@@ -101,5 +101,9 @@
                 -e MONGO_PASSWORD=$MONGO_PASSWORD \
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
 
+               echo test URL
+               wget -q -O /dev/null http://127.0.0.1:3000
+               
+
 
                
