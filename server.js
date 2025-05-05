@@ -5,6 +5,7 @@ const routes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const host = '0.0.0.0';
 
 // Middleware
 app.use(express.json());
