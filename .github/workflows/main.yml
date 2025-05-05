@@ -101,6 +101,8 @@
                 -e MONGO_PASSWORD=$MONGO_PASSWORD \
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
 
+                sleep 10
+
                echo test URL
                curl http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
 
