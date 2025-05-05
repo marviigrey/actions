@@ -102,5 +102,4 @@
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
 
 
-               echo Testing Image URL using wget
-               wget -q -o 127.0.0.1:3000
+               
