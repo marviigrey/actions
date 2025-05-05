@@ -86,3 +86,24 @@
             with:
               username: ${{ vars.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          - name: Docker build for testing
+            uses: docker/build-push-action@v6
+            with:
+              context:
+              push: false
+              tags: ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
+          
+          - name: Docke Image Test
+            run: |
+               docker images
+               docker run --name mongo-node -d \
+                -p 3000:3000 \ -e MONGO_URI=$MONGO_URI \
+                -e MONGO_USERNAME=$MONGO_USERNAME \
+                -e MONGO_PASSWORD=$MONGO_PASSWORD \
+                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
+
+               export IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mongo-node)
+               echo $IP
+
+               echo Testing Image URL using wget
+               wget -q -o 127.0.0.1:3000/live | grep live
