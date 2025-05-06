@@ -86,6 +86,7 @@
             with:
               username: ${{ vars.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
           - name: Docker build for testing
             uses: docker/build-push-action@v6
             with:
@@ -100,11 +101,15 @@
                 -e MONGO_USERNAME=$MONGO_USERNAME \
                 -e MONGO_PASSWORD=$MONGO_PASSWORD \
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
-
-                sleep 10
-
                echo test URL
                curl http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
+
+          - name: Docker build for testing
+            uses: docker/build-push-action@v6
+            with:
+                 context: .
+                 push: true
+                 tags: ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
 
 
 
