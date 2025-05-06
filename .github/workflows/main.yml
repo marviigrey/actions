@@ -102,6 +102,7 @@
                 -e MONGO_PASSWORD=$MONGO_PASSWORD \
                 ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{ github.sha }}
                echo test URL
+               sleep 10
                curl http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
 
           - name: Docker build for testing
