@@ -87,6 +87,13 @@
               username: ${{ vars.DOCKERHUB_USERNAME }}
               password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+          - name: GHCR Login
+            uses: docker/login-action@v3
+            with:
+                registry: ghcr.io
+                username: ${{ github.repository_owner }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+
           - name: Docker build for testing
             uses: docker/build-push-action@v6
             with:
@@ -105,12 +112,15 @@
                sleep 10
                curl http://127.0.0.1:3000 | grep "Simple Node.js MongoDB App"
 
-          - name: Docker build for testing
+          - name: Docker push to container registry
             uses: docker/build-push-action@v6
             with:
                  context: .
                  push: true
-                 tags: ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
+                 tags: |
+                  ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
+                  ghcr.io/${{ github.repository_owner }}/mongo-node:${{ github.sha }}
+
 
 
 
