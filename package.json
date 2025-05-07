@@ -1,6 +1,6 @@
 {
-  "name": "simple-node-mongodb-app",
-  "version": "1.0.0",
+  "name": "@marviigrey/simple-node-mongodb-app",
+  "version": "6.7.6",
   "description": "A simple Node.js application with MongoDB integration",
   "main": "server.js",
   "scripts": {
