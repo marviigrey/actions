@@ -18,6 +18,8 @@
       unit-testing:
         name: Unit Testing
         runs-on: ubuntu-latest
+        container:
+          image: node:20
         services:
           mongo-db:
             image: siddharth67/mongo-db:non-prod
