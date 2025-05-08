@@ -6,9 +6,6 @@ on:
 jobs:
     test-publish-package:
      runs-on: ubuntu-latest
-     permissions:
-      contents: read
-      packages: write
      steps:
         - name: checkout repository
           uses: actions/checkout@v4
