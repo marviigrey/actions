@@ -72,10 +72,7 @@
           - name: checkout repo
             uses: actions/checkout@v4
             
-        env:
-          MONGO_URI: 'mongodb://localhost:27017/superData'
-          MONGO_USERNAME: non-prod-user
-          MONGO_PASSWORD: non-prod-password
+        
          # - name: setup node
           #  uses: actions/setup-node@v4
            # with: 
