@@ -145,6 +145,23 @@
                  tags: |
                   ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
                   ghcr.io/${{ github.repository_owner }}/mongo-node:${{ github.sha }}
+      dev-deploy:
+        needs: docker
+        runs-on: ubuntu
+        steps:
+          - name: checkout repo
+            uses: actions/checkout@v4
+
+          - name: install kubectl CLI
+            uses: azure/setup-kubectl@v3
+            with: 
+              version: 'v1.28.0'
+
+          - name: fetch k8s cluster details
+            run: |
+               kubectl version --short 
+               echo --------------------------------
+               kubectl get nodes
 
 
 
