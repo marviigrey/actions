@@ -156,11 +156,10 @@
             uses: azure/setup-kubectl@v3
             with: 
               version: 'v1.28.0'
-          - name: Set Kubeconfig
-            uses: azure/k8s-set-context@v3
-            with: 
-              method: kubeconfig
-              kubeconfig: ${{secrets.KUBECONFIG}}
+            
+          - name: Start minikube
+            uses: medyagh/setup-minikube@latest
+            id: minikube
           - name: fetch k8s cluster details
             run: |
                kubectl version  
