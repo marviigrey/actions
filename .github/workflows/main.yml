@@ -157,6 +157,12 @@
             with: 
               version: 'v1.28.0'
 
+          - name: setup kube config
+            uses: azure/k8s-set-context@v3
+            with: 
+              method: kubeconfig
+              kubeconfig: ${{secrets.KUBECONFIG}}
+
           - name: fetch k8s cluster details
             run: |
                kubectl version  
