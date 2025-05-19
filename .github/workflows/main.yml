@@ -201,13 +201,8 @@
 
           - name: Create mongodb secret 
             run: |
-              kubectl -n ${{vars.NAMESPACE}} create secret generic mongo-db-creds \
-              --from-literal=MONGO_URI=${{env.MONGO_URI}} \
-              --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} \
-              --from-literal=MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}} \
-          - name: Verify secret
-            run: |
-             kubectl get secrets -n development
+              kubectl create secret generic -n development --from-literal=MONGO_URI=${{env.MONGO_URI}} --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} --from-literal=${{env.MONGO_PASSWORD}}
+        
           - name: Deploy to dev env
             run: |
                kubectl apply -f kubernetes/development/*.yaml
