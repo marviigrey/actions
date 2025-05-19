@@ -205,9 +205,9 @@
               --from-literal=MONGO_URI=${{env.MONGO_URI}} \
               --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} \
               --from-literal=MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}} \
-              --save-config \
-              --dry-run=client \
-              -o yaml | kubectl apply -f -
+          - name: Verify secret
+            run: |
+             kubectl get secrets -n development
           - name: Deploy to dev env
             run: |
                kubectl apply -f kubernetes/development/*.yaml
