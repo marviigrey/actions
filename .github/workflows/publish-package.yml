@@ -1,0 +1,26 @@
+name: Publish to github NPM registry
+
+on: 
+    release:
+        types: published
+jobs:
+    test-publish-package:
+     runs-on: ubuntu-latest
+     steps:
+        - name: checkout repository
+          uses: actions/checkout@v4
+
+        - name: setupp Nodejs Version - 20.x
+          uses: actions/setup-node@v4
+          with:
+            node-version: '20.x'
+            registry-url: 'https://npm.pkg.github.com'
+
+        - name: Install Dependencies
+          run: npm install
+
+        - name: publish to github registry
+          run: npm publish
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

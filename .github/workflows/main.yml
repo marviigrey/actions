@@ -18,6 +18,15 @@
       unit-testing:
         name: Unit Testing
         runs-on: ubuntu-latest
+        services:
+          mongo-db:
+            image: siddharth67/mongo-db:non-prod
+            ports: 
+              - 27017:27017
+        env:
+          MONGO_URI: 'mongodb://localhost:27017/superData'
+          MONGO_USERNAME: non-prod-user
+          MONGO_PASSWORD: non-prod-password
         steps:
           - name: Checkout Repository
             uses: actions/checkout@v4
@@ -47,13 +56,27 @@
       code-coverage:
         name: code coverage
         runs-on: ubuntu-latest
+        container:
+          image: node:20
+        services:
+          mongo-db:
+            image: siddharth67/mongo-db:non-prod
+            options: 
+              --name mongo
+        env:
+          MONGO_URI: 'mongodb://localhost:27017/superData'
+          MONGO_USERNAME: non-prod-user
+          MONGO_PASSWORD: non-prod-password  
+          
         steps:
           - name: checkout repo
             uses: actions/checkout@v4
-          - name: setup node
-            uses: actions/setup-node@v4
-            with: 
-              node-version: 20
+            
+        
+         # - name: setup node
+          #  uses: actions/setup-node@v4
+           # with: 
+            #  node-version: 20
           - name: cache
             uses: actions/cache@v4
             with:
@@ -102,6 +125,8 @@
               context: .
               push: false
               tags: ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
+
+          
           
           - name: Docke Image Test
             run: |
@@ -122,6 +147,57 @@
                  tags: |
                   ${{ vars.DOCKERHUB_USERNAME }}/mongo-node:${{ github.sha }}
                   ghcr.io/${{ github.repository_owner }}/mongo-node:${{ github.sha }}
+      dev-deploy:
+        needs: docker
+        runs-on: ubuntu-latest
+        steps:
+          - name: checkout repo
+            uses: actions/checkout@v4
+
+          - name: install kubectl CLI
+            uses: azure/setup-kubectl@v3
+            with: 
+              version: 'v1.28.0'
+
+          - name: Configure AWS credentials
+            uses: aws-actions/configure-aws-credentials@v1
+            with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ${{ vars.AWS_REGION }}
+
+          - name: setup kube config
+            uses: azure/k8s-set-context@v3
+            with: 
+              method: kubeconfig
+              kubeconfig: ${{secrets.KUBECONFIG}}
+
+          - name: fetch k8s cluster details
+            run: |
+               kubectl version  
+               echo --------------------------------
+               kubectl get nodes
+
+          - name: Get nginx ingress controller IP as a github env variable
+            run: |
+              echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")" >> $GITHUB_ENV
+              
+          - name: Replace tokens in manifest files
+            uses: cschleiden/replace-tokens@v1
+            with:
+              tokenPrefix: '_{_'
+              tokenSuffix: '_}_'
+              files: '["kubernetes/development/*.yaml"]'
+            env:
+              NAMESPACE: ${{vars.NAMESPACE}}
+              REPLICAS: ${{vars.REPLICAS}}
+              IMAGE: ${{vars.DOCKERHUB_USERNAME}}/mongo-node:${{github.sha}}
+              INGRESS_IP: ${{env.INGRESS_IP}}
+
+
+          - name: check files
+            run: |
+              cat kubernetes/development/*.yaml
 
 
 
