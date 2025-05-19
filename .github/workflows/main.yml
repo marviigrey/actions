@@ -204,7 +204,7 @@
               kubectl create secret generic mongo-db-creds -n development \
               --from-literal=MONGO_URI=${{env.MONGO_URI}} \
               --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}}\
-              --from-literal=MONGO_PASSWORD=${{env.MONGO_PASSWORD}}
+              --from-literal=MONGO_PASSWORD=${{env.MONGO_PASSWORD}} 
         
           - name: Deploy to dev env
             run: |
