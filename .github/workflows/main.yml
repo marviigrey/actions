@@ -201,7 +201,7 @@
 
           - name: Create mongodb secret 
             run: |
-              kubectl -n ${{vars.NAMESPACE}} create generic mongo-db-creds \
+              kubectl -n ${{vars.NAMESPACE}} create secret generic mongo-db-creds \
               --from-literal=MONGO_URI=${{env.MONGO_URI}} \
               --from-literal=MONGO_USERNAME=${{env.MONGO_USERNAME}} \
               --from-literal=MONGO_PASSWORD=${{secrets.MONGO_PASSWORD}} \
