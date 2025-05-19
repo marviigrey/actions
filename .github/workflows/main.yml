@@ -210,7 +210,7 @@
               -o yaml | kubectl apply -f -
           - name: Deploy to dev env
             run: |
-               kubectl apply -f kubernetes/development
+               kubectl apply -f kubernetes/development/*.yaml
 
 
 
