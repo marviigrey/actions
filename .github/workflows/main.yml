@@ -205,8 +205,7 @@
         
           - name: Deploy to dev env
             run: |
-               kubectl apply -f kubernetes/development/*.yaml
-
+               kubectl apply -f kubernetes/development/
 
 
 
