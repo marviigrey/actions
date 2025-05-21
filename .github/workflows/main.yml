@@ -199,9 +199,9 @@
             run: |
               cat kubernetes/development/*.yaml
 
-          - name: Create mongodb secret 
-            run: |
-              kubectl create secret generic mongo-db-creds -n development --from-literal=MONGO_URI=${{env.MONGO_URI}} --from-literal=MONGO_USERNAME=marviigrey --from-literal=MONGO_PASSWORD=marviigrey18 
+       #  - name: Create mongodb secret 
+       #    run: |
+        #   kubectl create secret generic mongo-db-creds -n development --from-literal=MONGO_URI=${{env.MONGO_URI}} --from-literal=MONGO_USERNAME=marviigrey --from-literal=MONGO_PASSWORD=marviigrey18 
         
           - name: Deploy to dev env
             run: |
