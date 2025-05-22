@@ -1,29 +1,10 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Secret
 metadata:
-  labels:
-    app: mongo-node-app
-  name: mongo-node-app
-  namespace: _{_NAMESPACE_}_
-spec:
-  replicas: _{_REPLICAS_}_
-  selector:
-    matchLabels:
-      app: mongo-node-app
-  strategy: {}
-  template:
-    metadata:
-      labels:
-        app: mongo-node-app
-    spec:
-      containers:
-      - image: _{_IMAGE_}_
-        imagePullPolicy: Always
-        name: mongo-node-app
-        ports:
-        - containerPort: 3000
-          name: http
-          protocol: TCP
-        envFrom:
-        - secretRef:
-            name: mongo-db-creds
+  name: mongo-db-creds
+  namespace: development
+type: Opaque
+stringData:
+  MONGO_URI: "mongodb+srv://marviigrey:marviigrey18$@mycluster.ybh2ayz.mongodb.net/?retryWrites=true&w=majority&appName=myCluster"
+  MONGO_USERNAME: "marviigrey"
+  MONGO_PASSWORD: "marviigrey18"
