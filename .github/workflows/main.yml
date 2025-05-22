@@ -180,7 +180,7 @@
 
           - name: Get nginx ingress controller IP as a github env variable
             run: |
-              echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")" >> $GITHUB_ENV
+              echo "INGRESS_IP=$(kubectl -n ingress-nginx get services ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")" >> $GITHUB_ENV
               
           - name: Replace tokens in manifest files
             uses: cschleiden/replace-tokens@v1
